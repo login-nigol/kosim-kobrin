@@ -1,0 +1,83 @@
+/* ===== КОНТЕЙНЕР HERO-СЕКЦИИ ===== */
+.hero {
+  position: relative;
+  min-height: 90vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  background: linear-gradient(
+    180deg,
+    var(--color-bg-soft) 0%,
+    var(--color-white) 100%
+  );
+  padding: var(--section-padding-y) var(--section-padding-x);
+}
+
+/* ===== СЛОЙ С ЛЕТАЮЩИМИ ИКОНКАМИ ===== */
+.iconsLayer {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.floatingIcon {
+  position: absolute;
+  font-size: 2em;
+  opacity: 0.5;
+}
+
+/* ===== ОСНОВНОЙ КОНТЕНТ ===== */
+.content {
+  position: relative;
+  z-index: 1;
+  max-width: 40em;
+  text-align: center;
+}
+
+.title {
+  font-family: var(--font-display);
+  font-size: 2.2em;
+  font-weight: 700;
+  color: var(--color-primary);
+  margin-bottom: 0.6em;
+  line-height: 1.2;
+}
+
+.subtitle {
+  font-family: var(--font-body);
+  font-size: 1.1em;
+  color: var(--color-text-soft);
+  margin-bottom: 1.5em;
+}
+
+/* ===== КНОПКА ЗАКАЗА ===== */
+.ctaButton {
+  font-family: var(--font-display);
+  font-size: 1.1em;
+  font-weight: 600;
+  color: var(--color-white);
+  background: var(--color-primary);
+  border: none;
+  border-radius: var(--radius-base);
+  padding: 0.8em 2em;
+  cursor: pointer;
+  box-shadow: 0 0.4em 1em rgba(47, 125, 50, 0.3);
+  transition: transform var(--transition-base), background var(--transition-base);
+}
+
+.ctaButton:hover {
+  background: var(--color-primary-light);
+  transform: translateY(-0.15em) scale(1.03);
+}
+
+/* ===== АДАПТАЦИЯ ПОД ПЛАНШЕТ И ДЕСКТОП ===== */
+@media (min-width: 48em) {
+  .title {
+    font-size: 3em;
+  }
+
+  .subtitle {
+    font-size: 1.3em;
+  }
+}

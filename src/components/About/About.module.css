@@ -1,0 +1,72 @@
+/* ===== КОНТЕЙНЕР СЕКЦИИ ===== */
+.about {
+  padding: var(--section-padding-y) var(--section-padding-x);
+  background: var(--color-white);
+}
+
+.inner {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  text-align: center;
+}
+
+/* ===== ЗАГОЛОВОК ===== */
+.title {
+  font-family: var(--font-display);
+  font-size: 2em;
+  color: var(--color-primary);
+  margin-bottom: 0.8em;
+}
+
+/* ===== ОПИСАНИЕ ===== */
+.description {
+  font-family: var(--font-body);
+  font-size: 1.1em;
+  color: var(--color-text-soft);
+  max-width: 40em;
+  margin: 0 auto 2.5em;
+  line-height: 1.6;
+}
+
+/* ===== СЕТКА БЛОКОВ ДОВЕРИЯ ===== */
+.trustGrid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.5em;
+}
+
+.trustCard {
+  background: var(--color-bg-soft);
+  border-radius: var(--radius-base);
+  padding: 1.5em;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.6em;
+  transition: transform var(--transition-base);
+}
+
+.trustCard:hover {
+  transform: translateY(-0.3em);
+}
+
+.trustIcon {
+  font-size: 2em;
+}
+
+.trustText {
+  font-family: var(--font-body);
+  color: var(--color-text);
+  text-align: center;
+}
+
+/* ===== АДАПТАЦИЯ ПОД ПЛАНШЕТ И ДЕСКТОП ===== */
+@media (min-width: 48em) {
+  .trustGrid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .title {
+    font-size: 2.5em;
+  }
+}

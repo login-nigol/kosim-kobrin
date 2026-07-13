@@ -1,0 +1,118 @@
+/* ===== КОНТЕЙНЕР ШАПКИ ===== */
+.header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: var(--color-white);
+  box-shadow: 0 0.2em 0.6em rgba(0, 0, 0, 0.06);
+}
+
+.inner {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 1em 1.5em;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+/* ===== ЛОГОТИП ===== */
+.logo {
+  font-family: var(--font-display);
+  font-size: 1.4em;
+  font-weight: 600;
+  color: var(--color-primary);
+}
+
+/* ===== ДЕСКТОПНАЯ НАВИГАЦИЯ ===== */
+.navDesktop {
+  display: none;
+  gap: 1.5em;
+}
+
+.navLink {
+  font-family: var(--font-body);
+  color: var(--color-text);
+  transition: color var(--transition-base);
+}
+
+.navLink:hover {
+  color: var(--color-primary);
+}
+
+/* ===== БЛОК ДЕЙСТВИЙ СПРАВА ===== */
+.actions {
+  display: flex;
+  align-items: center;
+  gap: 1em;
+}
+
+.shareButton {
+  display: none;
+  font-family: var(--font-body);
+  background: var(--color-bg-soft);
+  border: none;
+  border-radius: var(--radius-base);
+  padding: 0.5em 1em;
+  cursor: pointer;
+  transition: background var(--transition-base);
+}
+
+.shareButton:hover {
+  background: var(--color-primary-light);
+  color: var(--color-white);
+}
+
+/* ===== БУРГЕР-КНОПКА ===== */
+.burger {
+  font-size: 1.5em;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--color-primary);
+}
+
+/* ===== МОБИЛЬНОЕ МЕНЮ НА ВЕСЬ ЭКРАН ===== */
+.mobileMenu {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  background: var(--color-primary);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2em;
+}
+
+.mobileNavLink {
+  font-family: var(--font-display);
+  font-size: 1.5em;
+  color: var(--color-white);
+}
+
+.closeButton {
+  position: absolute;
+  top: 1.5em;
+  right: 1.5em;
+  font-size: 2em;
+  background: none;
+  border: none;
+  color: var(--color-white);
+  cursor: pointer;
+}
+
+/* ===== АДАПТАЦИЯ ПОД ПЛАНШЕТ И ДЕСКТОП ===== */
+@media (min-width: 48em) {
+  .navDesktop {
+    display: flex;
+  }
+
+  .shareButton {
+    display: block;
+  }
+
+  .burger {
+    display: none;
+  }
+}

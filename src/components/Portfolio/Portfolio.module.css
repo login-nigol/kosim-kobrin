@@ -1,0 +1,70 @@
+/* ===== КОНТЕЙНЕР СЕКЦИИ ===== */
+.portfolio {
+  padding: var(--section-padding-y) var(--section-padding-x);
+  background: var(--color-white);
+}
+
+.inner {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  text-align: center;
+}
+
+.title {
+  font-family: var(--font-display);
+  font-size: 2em;
+  color: var(--color-primary);
+  margin-bottom: 0.5em;
+}
+
+.note {
+  font-family: var(--font-body);
+  color: var(--color-text-soft);
+  margin-bottom: 2em;
+}
+
+/* ===== СЕТКА ЗАГЛУШЕК ===== */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1em;
+}
+
+.card {
+  aspect-ratio: 1;
+  background: linear-gradient(
+    135deg,
+    var(--color-bg-soft) 0%,
+    var(--color-primary-light) 100%
+  );
+  border-radius: var(--radius-base);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5em;
+}
+
+.emoji {
+  font-size: 2.5em;
+}
+
+.label {
+  font-family: var(--font-body);
+  font-size: 0.85em;
+  color: var(--color-text);
+  font-weight: 600;
+  text-align: center;
+  padding: 0 0.5em;
+}
+
+/* ===== АДАПТАЦИЯ ПОД ПЛАНШЕТ И ДЕСКТОП ===== */
+@media (min-width: 48em) {
+  .grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+
+  .title {
+    font-size: 2.5em;
+  }
+}

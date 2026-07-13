@@ -1,0 +1,64 @@
+/* ===== КОНТЕЙНЕР СЕКЦИИ ===== */
+.services {
+  padding: var(--section-padding-y) var(--section-padding-x);
+  background: var(--color-bg-soft);
+}
+
+.inner {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  text-align: center;
+}
+
+/* ===== ЗАГОЛОВОК ===== */
+.title {
+  font-family: var(--font-display);
+  font-size: 2em;
+  color: var(--color-primary);
+  margin-bottom: 1.5em;
+}
+
+/* ===== СЕТКА КАРТОЧЕК ===== */
+.grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.5em;
+}
+
+.card {
+  background: var(--color-white);
+  border-radius: var(--radius-base);
+  padding: 1.8em;
+  text-align: left;
+  border-left: 0.3em solid var(--color-primary-light);
+  transition: transform var(--transition-base), box-shadow var(--transition-base);
+}
+
+.card:hover {
+  transform: translateY(-0.3em);
+  box-shadow: 0 0.6em 1.4em rgba(0, 0, 0, 0.08);
+}
+
+.cardTitle {
+  font-family: var(--font-display);
+  font-size: 1.3em;
+  color: var(--color-primary);
+  margin-bottom: 0.5em;
+}
+
+.cardText {
+  font-family: var(--font-body);
+  color: var(--color-text-soft);
+  line-height: 1.5;
+}
+
+/* ===== АДАПТАЦИЯ ПОД ПЛАНШЕТ И ДЕСКТОП ===== */
+@media (min-width: 48em) {
+  .grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .title {
+    font-size: 2.5em;
+  }
+}

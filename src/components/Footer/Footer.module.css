@@ -1,0 +1,35 @@
+/* ===== КОНТЕЙНЕР ПОДВАЛА ===== */
+.footer {
+  background: var(--color-text);
+  padding: 2em 1.5em;
+}
+
+.inner {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.8em;
+  text-align: center;
+}
+
+.text {
+  font-family: var(--font-body);
+  font-size: 0.9em;
+  color: var(--color-bg-soft);
+}
+
+.link {
+  font-family: var(--font-body);
+  color: var(--color-primary-light);
+  font-weight: 700;
+}
+
+/* ===== АДАПТАЦИЯ ПОД ДЕСКТОП ===== */
+@media (min-width: 48em) {
+  .inner {
+    flex-direction: row;
+    justify-content: space-between;
+  }
+}

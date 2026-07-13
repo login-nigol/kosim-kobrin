@@ -1,0 +1,78 @@
+/* ===== КОНТЕЙНЕР СЕКЦИИ ===== */
+.contacts {
+  padding: var(--section-padding-y) var(--section-padding-x);
+  background: var(--color-primary);
+  text-align: center;
+}
+
+.title {
+  font-family: var(--font-display);
+  font-size: 2em;
+  color: var(--color-white);
+  margin-bottom: 0.5em;
+}
+
+.subtitle {
+  font-family: var(--font-body);
+  color: var(--color-bg-soft);
+  margin-bottom: 2em;
+}
+
+/* ===== СЕТКА КНОПОК ===== */
+.buttonsGrid {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1em;
+  max-width: 24em;
+  margin: 0 auto;
+}
+
+.telegramButton,
+.emailButton,
+.shareButton {
+  width: 100%;
+  font-family: var(--font-body);
+  font-weight: 700;
+  font-size: 1em;
+  padding: 0.9em 1.5em;
+  border-radius: var(--radius-base);
+  border: none;
+  cursor: pointer;
+  transition: transform var(--transition-base);
+  text-align: center;
+}
+
+.telegramButton {
+  background: var(--color-white);
+  color: var(--color-primary);
+}
+
+.emailButton {
+  background: var(--color-accent-blue);
+  color: var(--color-white);
+}
+
+.shareButton {
+  background: transparent;
+  color: var(--color-white);
+  border: 0.12em solid var(--color-white);
+}
+
+.telegramButton:hover,
+.emailButton:hover,
+.shareButton:hover {
+  transform: translateY(-0.15em) scale(1.02);
+}
+
+/* ===== АДАПТАЦИЯ ПОД ДЕСКТОП ===== */
+@media (min-width: 48em) {
+  .title {
+    font-size: 2.5em;
+  }
+
+  .buttonsGrid {
+    flex-direction: row;
+    max-width: none;
+  }
+}
