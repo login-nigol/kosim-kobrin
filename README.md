@@ -1,16 +1,61 @@
-# React + Vite
+# КосимКобрин 🌱
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Лендинг для сервиса покоса травы и ухода за участками в Кобрине.
 
-Currently, two official plugins are available:
+## Стек
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+- React 19 + Vite
+- Framer Motion — анимации
+- CSS Modules — стили компонентов
 
-## React Compiler
+## Запуск проекта
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+npm install
+npm run dev
 
-## Expanding the ESLint configuration
+Откроется на `http://localhost:5173` (или следующий свободный порт, если занят).
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+## Сборка для продакшена
+
+npm run build
+
+Собранные файлы попадут в папку `dist/`.
+
+## Структура проекта
+
+src/
+├── components/       # Секции сайта, каждая — папка с .jsx + .module.css
+│   ├── Header/
+│   ├── Hero/
+│   ├── About/
+│   ├── Services/
+│   ├── Portfolio/
+│   ├── Pricing/
+│   ├── FAQ/
+│   ├── Contacts/
+│   ├── Footer/
+│   └── GrassDivider/  # анимированный разделитель между секциями
+├── hooks/             # useClickSound, useVibration, useShare
+├── config/
+│   └── siteData.js    # ВСЕ тексты, цены и контакты — единый источник правды
+├── styles/
+│   └── variables.css  # цвета, шрифты, отступы
+├── App.jsx            # сборка всех секций по порядку
+└── main.jsx
+
+## Как обновить контент
+
+Почти весь текст (услуги, цены, контакты, FAQ) редактируется в одном месте:
+`src/config/siteData.js` — не нужно лазить по компонентам.
+
+## Деплой
+
+Проект подключён к Vercel — каждый `git push` в `master` автоматически
+пересобирает и обновляет сайт: https://kosim-kobrin.vercel.app
+
+## TODO
+
+- [ ] Реальные фото/видео работ (пока заглушки в Portfolio)
+- [ ] Звуковой файл клика (`public/sounds/click.mp3`)
+- [ ] Canvas-эффект растворения на лого в Hero
+- [ ] Реальный Telegram-юзернейм и почта в `siteData.js`
