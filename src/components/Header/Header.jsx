@@ -1,10 +1,3 @@
-/* ================================================================
-   ШАПКА САЙТА
-   Лого, навигация (десктоп), кнопка "Поделиться", бургер-дропдаун
-   (мобилка) — выпадает под шапкой на всю ширину, закрывается кликом
-   вне через невидимый оверлей (правило проекта — не через document
-   addEventListener, клик иначе проваливается на элемент под меню)
-   ================================================================ */
 import { useState } from "react";
 import { motion } from "framer-motion";
 import { useShare } from "../../hooks/useShare";
@@ -14,7 +7,6 @@ import ShareIcon from "../../assets/icons/ShareIcon";
 import GearsIcon from "../GearsIcon/GearsIcon";
 import styles from "./Header.module.css";
 
-/* ===== ССЫЛКИ НАВИГАЦИИ ===== */
 const NAV_LINKS = [
     { id: "about", label: "Пра нас" },
     { id: "services", label: "Паслугі" },
@@ -27,7 +19,6 @@ function Header() {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const { share } = useShare();
 
-    /* ===== ОБЁРТКА ДЕЙСТВИЯ: звук+вибро перед самим действием ===== */
     const handleAction = (action) => {
         secondaryFeedback();
         action();
@@ -41,12 +32,10 @@ function Header() {
             transition={{ duration: 0.7, ease: "easeOut" }}
         >
             <div className={styles.inner}>
-                {/* ===== ЛОГОТИП ===== */}
                 <a href="#top" className={styles.logo}>
                     🌱 КосимКобрин
                 </a>
 
-                {/* ===== НАВИГАЦИЯ — только десктоп/планшет ===== */}
                 <nav className={styles.navDesktop}>
                     {NAV_LINKS.map((link) => (
                         <a key={link.id} href={`#${link.id}`} className={styles.navLink}>
@@ -55,10 +44,7 @@ function Header() {
                     ))}
                 </nav>
 
-                {/* ===== БЛОК КНОПОК СПРАВА ===== */}
                 <div className={styles.actions}>
-                    {/* Кнопка "Поделиться" — теперь тут, вместо мьюта.
-              Фон — тот же зелёный оттенок, что используется в тенях секций */}
                     <button
                         className={styles.shareButton}
                         onClick={() => handleAction(share)}
@@ -67,22 +53,19 @@ function Header() {
                         <ShareIcon size={18} />
                     </button>
 
-                    {/* Бургер-кнопка — открывает дропдаун-меню */}
+                    {/* Бургер-кнопка теперь с шестерёнками вместо ☰ */}
                     <button
                         className={styles.burger}
                         onClick={() => handleAction(() => setIsMenuOpen(true))}
                         aria-label="Открыть меню"
                     >
-                        ☰
+                        <GearsIcon />
                     </button>
                 </div>
             </div>
 
-            {/* ===== ДРОПДАУН-МЕНЮ (только когда открыто) ===== */}
             {isMenuOpen && (
                 <>
-                    {/* Невидимый оверлей — перехватывает клик вне меню и закрывает его.
-              z-index на единицу меньше самого меню, чтобы не перекрывать его */}
                     <div
                         className={styles.overlay}
                         onClick={() => handleAction(() => setIsMenuOpen(false))}
@@ -94,14 +77,9 @@ function Header() {
                         animate={{ opacity: 1, y: 0 }}
                         exit={{ opacity: 0, y: -20 }}
                         transition={{ duration: 0.3, ease: "easeOut" }}
-                        // Останавливаем всплытие — клик внутри меню не должен
-                        // добираться до оверлея и закрывать меню
                         onClick={(e) => e.stopPropagation()}
                     >
-
-                        <GearsIcon />
-
-                        {/* Мьют — теперь первым пунктом меню */}
+                        {/* GearsIcon отсюда убрали — теперь на кнопке-триггере в шапке */}
                         <div className={styles.menuMuteRow}>
                             <span className={styles.menuMuteLabel}>Гук</span>
                             <MuteButton />

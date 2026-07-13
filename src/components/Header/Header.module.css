@@ -71,13 +71,15 @@
   transform: scale(1.05);
 }
 
-/* ===== БУРГЕР-КНОПКА ===== */
+/* ===== БУРГЕР-КНОПКА (теперь с шестерёнками) ===== */
 .burger {
-  font-size: 2em;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   background: none;
   border: none;
   cursor: pointer;
-  color: var(--color-white);
+  padding: 0;
 }
 
 /* ===== ОВЕРЛЕЙ ДЛЯ ЗАКРЫТИЯ ПО КЛИКУ ВНЕ ===== */
