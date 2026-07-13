@@ -31,6 +31,7 @@
   padding: 1.8em;
   text-align: left;
   border-left: 0.3em solid var(--color-primary-light);
+  box-shadow: var(--shadow-inset-green);
   transition: transform var(--transition-base), box-shadow var(--transition-base);
 }
 

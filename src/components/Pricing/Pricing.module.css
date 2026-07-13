@@ -23,6 +23,7 @@
   background: var(--color-white);
   border-radius: var(--radius-base);
   padding: 0.5em;
+  box-shadow: var(--shadow-inset-green);
 }
 
 .table {
