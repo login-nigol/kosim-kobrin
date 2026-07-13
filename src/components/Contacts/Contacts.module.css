@@ -48,6 +48,10 @@
   cursor: pointer;
   transition: transform var(--transition-base);
   text-align: center;
+  display: flex; /* ← добавили — было по умолчанию block */
+  align-items: center;
+  justify-content: center;
+  gap: 0.5em; /* ← отступ между иконкой и текстом */
 }
 
 .telegramButton {
