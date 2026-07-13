@@ -3,7 +3,7 @@
    Canvas-оверлей поверх всей страницы (клики сквозь него проходят).
    Косилка выезжает из случайной точки за краем экрана под случайным
    углом (0-360°), едет по прямой, за ней остаётся полоса цвета земли
-   вдоль всего пройденного пути. Когда косилка уезжает за
+   с текстурой вдоль всего пройденного пути. Когда косилка уезжает за
    противоположный край экрана — полоса плавно исчезает
    ================================================================ */
 import { useEffect, useRef } from "react";
@@ -13,20 +13,35 @@ const MOWER_SIZE = 36;
 const MOWER_SPEED = 4;
 const SWATH_WIDTH = 60;
 const SWATH_FADE_DURATION_MS = 900;
-const PASS_PAUSE_RANGE_MS = [3000, 7000];
-const SWATH_COLOR = "201, 168, 119"; // светло-коричневый, "земля" — RGB без alpha, чтобы переиспользовать в rgba()
+const PASS_PAUSE_RANGE_MS = [5000, 12000];
+const SWATH_COLOR = "201, 168, 119"; // светло-коричневый, "земля"
 
 function MowerEasterEgg() {
     const canvasRef = useRef(null);
 
     useEffect(() => {
+        const canvas = canvasRef.current;
+        const ctx = canvas.getContext("2d");
+
+        /* ===== POLYFILL: roundRect есть не во всех мобильных браузерах ===== */
+        // Без этой проверки на старом iOS Safari анимация тихо падает при первой отрисовке
+        if (!ctx.roundRect) {
+            ctx.roundRect = function (x, y, width, height, radius) {
+                this.beginPath();
+                this.moveTo(x + radius, y);
+                this.arcTo(x + width, y, x + width, y + height, radius);
+                this.arcTo(x + width, y + height, x, y + height, radius);
+                this.arcTo(x, y + height, x, y, radius);
+                this.arcTo(x, y, x + width, y, radius);
+                this.closePath();
+            };
+        }
+
+        // Уважаем настройку "уменьшить анимацию" в системе пользователя
         const prefersReducedMotion = window.matchMedia(
             "(prefers-reduced-motion: reduce)"
         ).matches;
         if (prefersReducedMotion) return;
-
-        const canvas = canvasRef.current;
-        const ctx = canvas.getContext("2d");
 
         function resizeCanvas() {
             canvas.width = window.innerWidth;
@@ -42,18 +57,13 @@ function MowerEasterEgg() {
 
         /* ===== ЗАПУСК НОВОГО ПРОЕЗДА ПОД СЛУЧАЙНЫМ УГЛОМ ===== */
         function startNewPass() {
-            // Случайный угол движения — полный круг, 0 до 360 градусов
             const angle = Math.random() * Math.PI * 2;
 
-            // Стартовая точка — за пределами экрана, с запасом на диагональ,
-            // чтобы при любом угле косилка гарантированно проехала через видимую область
             const diagonal = Math.sqrt(canvas.width ** 2 + canvas.height ** 2);
             const startDistance = diagonal / 2 + MOWER_SIZE;
             const centerX = canvas.width / 2;
             const centerY = canvas.height / 2;
 
-            // Стартуем с направления, противоположного движению —
-            // тогда траектория точно пройдёт где-то через центр экрана
             const startX = centerX - Math.cos(angle) * startDistance + (Math.random() - 0.5) * canvas.width;
             const startY = centerY - Math.sin(angle) * startDistance + (Math.random() - 0.5) * canvas.height;
 
@@ -133,8 +143,8 @@ function MowerEasterEgg() {
         }
 
         /* ===== ПСЕВДОСЛУЧАЙНОЕ ЧИСЛО ПО ЦЕЛОМУ ИНДЕКСУ ===== */
-        // Даёт стабильный, но "случайный на вид" результат — комочки земли
-        // не будут дрожать/мерцать между кадрами, т.к. привязаны к позиции, не ко времени
+        // Стабильный "случайный на вид" результат — комочки земли не мерцают,
+        // т.к. привязаны к позиции на полосе, а не ко времени
         function pseudoRandom(seed) {
             const x = Math.sin(seed * 12.9898) * 43758.5453;
             return x - Math.floor(x);
@@ -151,13 +161,9 @@ function MowerEasterEgg() {
             ctx.translate(swath.startX, swath.startY);
             ctx.rotate(swath.angle);
 
-            // Базовая заливка полосы
             ctx.fillStyle = `rgba(${SWATH_COLOR}, ${fadeAlpha * 0.5})`;
             ctx.fillRect(0, -SWATH_WIDTH / 2, swath.length, SWATH_WIDTH);
 
-            // ===== ТЕКСТУРА "КОМОЧКОВ ЗЕМЛИ" =====
-            // Идём вдоль полосы с фиксированным шагом, на каждом шаге рисуем
-            // несколько пятен со случайным (но стабильным) смещением и размером
             const DIRT_STEP = 14;
             for (let dist = 0; dist < swath.length; dist += DIRT_STEP) {
                 const seed = Math.floor(dist / DIRT_STEP);
@@ -168,7 +174,6 @@ function MowerEasterEgg() {
                     const localY = (pseudoRandom(offsetSeed + 0.5) - 0.5) * (SWATH_WIDTH - 8);
                     const radius = 1.5 + pseudoRandom(offsetSeed + 0.7) * 2;
 
-                    // Комочки чередуются темнее/светлее базового тона — создаёт объём
                     const isDark = pseudoRandom(offsetSeed + 0.3) > 0.5;
                     const shade = isDark ? "140, 110, 75" : "222, 196, 150";
 
@@ -192,7 +197,6 @@ function MowerEasterEgg() {
 
             if (swath) {
                 if (mower) {
-                    // Длина полосы — пройденное расстояние от стартовой точки до косилки
                     const traveledX = mower.x - swath.startX;
                     const traveledY = mower.y - swath.startY;
                     swath.length = Math.sqrt(traveledX ** 2 + traveledY ** 2);
@@ -206,8 +210,8 @@ function MowerEasterEgg() {
                 drawMower();
 
                 const offScreen =
-                    mower.x < -MOWER_SIZE * 2 || PASS_PAUSE_RANGE_MS
-                mower.x > canvas.width + MOWER_SIZE * 2 ||
+                    mower.x < -MOWER_SIZE * 2 ||
+                    mower.x > canvas.width + MOWER_SIZE * 2 ||
                     mower.y < -MOWER_SIZE * 2 ||
                     mower.y > canvas.height + MOWER_SIZE * 2;
 
