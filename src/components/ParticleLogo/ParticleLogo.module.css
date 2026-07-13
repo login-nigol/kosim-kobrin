@@ -1,0 +1,7 @@
+/* ===== ХОЛСТ С ЭМБЛЕМОЙ ===== */
+.canvas {
+  width: 5em;
+  height: 5em;
+  margin: 0 auto 1em;
+  display: block;
+}

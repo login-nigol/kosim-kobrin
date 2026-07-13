@@ -1,16 +1,19 @@
 /* ================================================================
    ШАПКА САЙТА
-   Лого, навигация по секциям, кнопка мьюта, кнопка "Поделиться",
-   мобильное бургер-меню на весь экран
+   Лого, навигация (десктоп), кнопка "Поделиться", бургер-дропдаун
+   (мобилка) — выпадает под шапкой на всю ширину, закрывается кликом
+   вне через невидимый оверлей (правило проекта — не через document
+   addEventListener, клик иначе проваливается на элемент под меню)
    ================================================================ */
 import { useState } from "react";
 import { motion } from "framer-motion";
 import { useShare } from "../../hooks/useShare";
 import { secondaryFeedback } from "../../utils/buttonFeedback";
 import MuteButton from "../MuteButton/MuteButton";
+import ShareIcon from "../../assets/icons/ShareIcon";
 import styles from "./Header.module.css";
 
-/* ===== ССЫЛКИ НАВИГАЦИИ (id секции + подпись на белорусском) ===== */
+/* ===== ССЫЛКИ НАВИГАЦИИ ===== */
 const NAV_LINKS = [
     { id: "about", label: "Пра нас" },
     { id: "services", label: "Паслугі" },
@@ -23,9 +26,7 @@ function Header() {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const { share } = useShare();
 
-    /* ===== ОБЁРТКА ДЕЙСТВИЯ: сначала звук+вибро, потом сама логика ===== */
-    // Используется для всех второстепенных кликов в шапке
-    // (открыть/закрыть меню, поделиться)
+    /* ===== ОБЁРТКА ДЕЙСТВИЯ: звук+вибро перед самим действием ===== */
     const handleAction = (action) => {
         secondaryFeedback();
         action();
@@ -39,12 +40,12 @@ function Header() {
             transition={{ duration: 0.7, ease: "easeOut" }}
         >
             <div className={styles.inner}>
-                {/* ===== ЛОГОТИП (ведёт наверх страницы) ===== */}
+                {/* ===== ЛОГОТИП ===== */}
                 <a href="#top" className={styles.logo}>
                     🌱 КосимКобрин
                 </a>
 
-                {/* ===== НАВИГАЦИЯ — видна только на планшете/десктопе ===== */}
+                {/* ===== НАВИГАЦИЯ — только десктоп/планшет ===== */}
                 <nav className={styles.navDesktop}>
                     {NAV_LINKS.map((link) => (
                         <a key={link.id} href={`#${link.id}`} className={styles.navLink}>
@@ -55,21 +56,17 @@ function Header() {
 
                 {/* ===== БЛОК КНОПОК СПРАВА ===== */}
                 <div className={styles.actions}>
-                    {/* Переключатель звука — стоит первым, чтобы легко нашли */}
-                    <MuteButton />
-
-                    {/* Кнопка "Поделиться" — видна только на планшете/десктопе,
-              на мобилке она дублируется внутри бургер-меню отдельно не нужна,
-              потому что там уже видно всё меню */}
+                    {/* Кнопка "Поделиться" — теперь тут, вместо мьюта.
+              Фон — тот же зелёный оттенок, что используется в тенях секций */}
                     <button
                         className={styles.shareButton}
                         onClick={() => handleAction(share)}
                         aria-label="Поделиться сайтом"
                     >
-                        🔗 Падзяліцца
+                        <ShareIcon size={18} />
                     </button>
 
-                    {/* Бургер-кнопка — видна только на мобилке */}
+                    {/* Бургер-кнопка — открывает дропдаун-меню */}
                     <button
                         className={styles.burger}
                         onClick={() => handleAction(() => setIsMenuOpen(true))}
@@ -80,38 +77,47 @@ function Header() {
                 </div>
             </div>
 
-            {/* ===== МОБИЛЬНОЕ МЕНЮ НА ВЕСЬ ЭКРАН ===== */}
+            {/* ===== ДРОПДАУН-МЕНЮ (только когда открыто) ===== */}
             {isMenuOpen && (
-                <motion.div
-                    className={styles.mobileMenu}
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    exit={{ opacity: 0 }}
-                >
-                    {/* Кнопка закрытия — в углу, крупная, легко попасть пальцем */}
-                    <button
-                        className={styles.closeButton}
+                <>
+                    {/* Невидимый оверлей — перехватывает клик вне меню и закрывает его.
+              z-index на единицу меньше самого меню, чтобы не перекрывать его */}
+                    <div
+                        className={styles.overlay}
                         onClick={() => handleAction(() => setIsMenuOpen(false))}
-                        aria-label="Закрыть меню"
+                    />
+
+                    <motion.div
+                        className={styles.dropdownMenu}
+                        initial={{ opacity: 0, y: -20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: -20 }}
+                        transition={{ duration: 0.3, ease: "easeOut" }}
+                        // Останавливаем всплытие — клик внутри меню не должен
+                        // добираться до оверлея и закрывать меню
+                        onClick={(e) => e.stopPropagation()}
                     >
-                        ✕
-                    </button>
+                        {/* Мьют — теперь первым пунктом меню */}
+                        <div className={styles.menuMuteRow}>
+                            <span className={styles.menuMuteLabel}>Гук</span>
+                            <MuteButton />
+                        </div>
 
-                    {/* При клике на ссылку меню сразу закрывается —
-              не нужно тыкать в крестик после перехода */}
-                    {NAV_LINKS.map((link) => (
+                        {NAV_LINKS.map((link) => (
 
-                        <a key={link.id}
-                            href={`#${link.id}`}
-                            className={styles.mobileNavLink}
-                            onClick={() => handleAction(() => setIsMenuOpen(false))}
-                        >
-                            {link.label}
-                        </a>
-                    ))}
-                </motion.div>
-            )}
-        </motion.header>
+                            <a key={link.id}
+                                href={`#${link.id}`}
+                                className={styles.mobileNavLink}
+                                onClick={() => handleAction(() => setIsMenuOpen(false))}
+                            >
+                                {link.label}
+                            </a>
+                        ))}
+                    </motion.div>
+                </>
+            )
+            }
+        </motion.header >
     );
 }
 

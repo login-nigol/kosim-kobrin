@@ -6,6 +6,7 @@
 import { motion } from "framer-motion";
 import { CONTACTS } from "../../config/siteData";
 import { primaryFeedback } from "../../utils/buttonFeedback";
+// import ParticleLogo from "../ParticleLogo/ParticleLogo";
 import styles from "./Hero.module.css";
 
 /* ===== НАБОР ФОНОВЫХ ИКОНОК ===== */
@@ -57,8 +58,11 @@ function Hero() {
         className={styles.content}
         initial={{ opacity: 0, scale: 0.9 }}
         animate={{ opacity: 1, scale: 1 }}
-        transition={{ duration: 0.8, ease: "easeOut", delay: 0.2 }}
+        transition={{ duration: 0.8, ease: "easeOut", delay: 0.2 }}        
       >
+
+        {/* <ParticleLogo /> */}
+
         {/* Главный заголовок — на белорусском, как договаривались
             для самых важных элементов страницы */}
         <h1 className={styles.title}>

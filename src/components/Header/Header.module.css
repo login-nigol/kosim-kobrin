@@ -5,7 +5,6 @@
   z-index: 100;
   background: var(--color-white);
   box-shadow: 0 0.2em 0.6em rgba(0, 0, 0, 0.06);
-  /* border-radius: 0 0 var(--radius-base) var(--radius-base); */
 }
 
 .inner {
@@ -45,23 +44,27 @@
 .actions {
   display: flex;
   align-items: center;
-  gap: 1em;
+  gap: 0.8em;
 }
 
+/* ===== КНОПКА "ПОДЕЛИТЬСЯ" (иконка, фон как у зелёных теней секций) ===== */
 .shareButton {
-  display: none;
-  font-family: var(--font-body);
-  background: var(--color-bg-soft);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.4em;
+  height: 2.4em;
+  border-radius: 50%;
   border: none;
-  border-radius: var(--radius-base);
-  padding: 0.5em 1em;
   cursor: pointer;
-  transition: background var(--transition-base);
+  background: rgba(47, 125, 50, 0.12); /* тот же зелёный тон, что и в --shadow-inset-green */
+  color: var(--color-primary);
+  transition: background var(--transition-base), transform var(--transition-base);
 }
 
 .shareButton:hover {
-  background: var(--color-primary-light);
-  color: var(--color-white);
+  background: rgba(47, 125, 50, 0.22);
+  transform: scale(1.05);
 }
 
 /* ===== БУРГЕР-КНОПКА ===== */
@@ -73,34 +76,56 @@
   color: var(--color-primary);
 }
 
-/* ===== МОБИЛЬНОЕ МЕНЮ НА ВЕСЬ ЭКРАН ===== */
-.mobileMenu {
+/* ===== ОВЕРЛЕЙ ДЛЯ ЗАКРЫТИЯ ПО КЛИКУ ВНЕ ===== */
+.overlay {
   position: fixed;
   inset: 0;
-  z-index: 200;
-  background: var(--color-primary);
+  z-index: 149; /* на единицу меньше .dropdownMenu (150) */
+}
+
+/* ===== ДРОПДАУН-МЕНЮ: выпадает от шапки на всю ширину ===== */
+.dropdownMenu {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: 100%;
+  z-index: 150;
+  background: var(--color-white);
+  box-shadow: 0 0.6em 1.2em rgba(0, 0, 0, 0.12);
+  border-radius: 0 0 var(--radius-base) var(--radius-base);
   display: flex;
   flex-direction: column;
+  padding: 0.5em 1.5em 1.5em;
+}
+
+/* ===== СТРОКА С МЬЮТОМ (первый пункт меню) ===== */
+.menuMuteRow {
+  display: flex;
   align-items: center;
-  justify-content: center;
-  gap: 2em;
+  justify-content: space-between;
+  padding: 1em 0;
+  border-bottom: 0.06em solid var(--color-bg-soft);
+  margin-bottom: 0.5em;
 }
 
+.menuMuteLabel {
+  font-family: var(--font-body);
+  font-weight: 700;
+  color: var(--color-text);
+}
+
+/* ===== ССЫЛКИ НАВИГАЦИИ В МЕНЮ ===== */
 .mobileNavLink {
-  font-family: var(--font-display);
-  font-size: 1.5em;
-  color: var(--color-white);
+  font-family: var(--font-body);
+  font-size: 1.1em;
+  font-weight: 600;
+  color: var(--color-text);
+  padding: 0.9em 0;
+  border-bottom: 0.06em solid var(--color-bg-soft);
 }
 
-.closeButton {
-  position: absolute;
-  top: 1.5em;
-  right: 1.5em;
-  font-size: 2em;
-  background: none;
-  border: none;
-  color: var(--color-white);
-  cursor: pointer;
+.mobileNavLink:last-child {
+  border-bottom: none;
 }
 
 /* ===== АДАПТАЦИЯ ПОД ПЛАНШЕТ И ДЕСКТОП ===== */
@@ -109,11 +134,12 @@
     display: flex;
   }
 
-  .shareButton {
-    display: block;
-  }
-
   .burger {
     display: none;
+  }
+
+  .dropdownMenu,
+  .overlay {
+    display: none; /* на десктопе навигация уже видна напрямую */
   }
 }
