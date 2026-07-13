@@ -59,19 +59,36 @@ function MowerEasterEgg() {
         function startNewPass() {
             const angle = Math.random() * Math.PI * 2;
 
+            // Направление движения (единичный вектор)
+            const directionX = Math.cos(angle);
+            const directionY = Math.sin(angle);
+
+            // Перпендикуляр к направлению — вдоль него смещаем линию старта,
+            // чтобы разные проезды проходили через разные участки экрана
+            const perpendicularX = -directionY;
+            const perpendicularY = directionX;
+
             const diagonal = Math.sqrt(canvas.width ** 2 + canvas.height ** 2);
-            const startDistance = diagonal / 2 + MOWER_SIZE;
             const centerX = canvas.width / 2;
             const centerY = canvas.height / 2;
 
-            const startX = centerX - Math.cos(angle) * startDistance + (Math.random() - 0.5) * canvas.width;
-            const startY = centerY - Math.sin(angle) * startDistance + (Math.random() - 0.5) * canvas.height;
+            // Стартуем строго за пределами экрана вдоль направления движения —
+            // радиус с запасом гарантирует что точка старта всегда за кадром
+            const startRadius = diagonal / 2 + MOWER_SIZE * 2;
+            // Случайное смещение вдоль перпендикуляра — разброс траекторий по экрану,
+            // ограничен половиной диагонали, чтобы линия всё ещё пересекала видимую область
+            const perpendicularOffset = (Math.random() - 0.5) * diagonal;
+
+            const startX =
+                centerX - directionX * startRadius + perpendicularX * perpendicularOffset;
+            const startY =
+                centerY - directionY * startRadius + perpendicularY * perpendicularOffset;
 
             mower = {
                 x: startX,
                 y: startY,
-                dx: Math.cos(angle) * MOWER_SPEED,
-                dy: Math.sin(angle) * MOWER_SPEED,
+                dx: directionX * MOWER_SPEED,
+                dy: directionY * MOWER_SPEED,
                 angle,
             };
 
