@@ -1,0 +1,24 @@
+/* ===== ЦВЕТОВАЯ ПАЛИТРА ===== */
+:root {
+  --color-primary: #2f7d32;       /* основной зелёный — трава */
+  --color-primary-light: #6cbf5f; /* светлый акцент */
+  --color-accent-blue: #4fa8d8;   /* небо */
+  --color-white: #ffffff;
+  --color-bg-soft: #f2f8f0;       /* мягкий фон секций */
+  --color-text: #1c2b1e;
+  --color-text-soft: #4a5c4d;
+
+  /* ===== ТИПОГРАФИКА ===== */
+  --font-display: 'Fredoka', sans-serif;
+  --font-body: 'Nunito Sans', sans-serif;
+
+  /* ===== РАЗМЕРЫ И ОТСТУПЫ ===== */
+  --max-width: 90em;           /* лимит ширины контента */
+  --radius-base: 1.2em;
+  --section-padding-y: 5em;
+  --section-padding-x: 1.5em;
+
+  /* ===== АНИМАЦИИ ===== */
+  --transition-slow: 0.7s ease;
+  --transition-base: 0.3s ease;
+}

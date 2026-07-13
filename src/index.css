@@ -1,0 +1,27 @@
+/* ===== ГЛОБАЛЬНЫЙ СБРОС СТИЛЕЙ ===== */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/* ===== БАЗОВЫЕ НАСТРОЙКИ HTML/BODY ===== */
+html {
+  font-size: 16px; /* база для em-расчётов */
+}
+
+body {
+  font-family: 'Segoe UI', system-ui, sans-serif;
+  line-height: 1.5;
+  min-height: 100vh;
+}
+
+/* ===== УБИРАЕМ СТАНДАРТНЫЕ СТИЛИ У СПИСКОВ И ССЫЛОК ===== */
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+ul, ol {
+  list-style: none;
+}
