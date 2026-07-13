@@ -1,0 +1,25 @@
+/* ===== ПОЛОСА-РАЗДЕЛИТЕЛЬ ===== */
+.divider {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 0.5em 1.5em;
+  overflow: hidden;
+}
+
+.blade {
+  display: inline-block;
+  font-size: 1.3em;
+  transform-origin: bottom center;
+  opacity: 0.8;
+}
+
+/* ===== АДАПТАЦИЯ: на мобилке травинок физически меньше видно ===== */
+@media (max-width: 30em) {
+  .divider {
+    justify-content: center;
+    gap: 0.3em;
+  }
+}

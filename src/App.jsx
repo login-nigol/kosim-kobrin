@@ -1,5 +1,4 @@
 /* ===== ГЛАВНЫЙ КОМПОНЕНТ ПРИЛОЖЕНИЯ ===== */
-// Собираем все секции лендинга по порядку
 import Header from "./components/Header/Header";
 import Hero from "./components/Hero/Hero";
 import About from "./components/About/About";
@@ -8,16 +7,22 @@ import Portfolio from "./components/Portfolio/Portfolio";
 import Pricing from "./components/Pricing/Pricing";
 import Contacts from "./components/Contacts/Contacts";
 import Footer from "./components/Footer/Footer";
+import GrassDivider from "./components/GrassDivider/GrassDivider";
 
 function App() {
   return (
     <div className="app">
       <Header />
       <Hero />
+      <GrassDivider />
       <About />
+      <GrassDivider />
       <Services />
+      <GrassDivider />
       <Portfolio />
+      <GrassDivider />
       <Pricing />
+      <GrassDivider />
       <Contacts />
       <Footer />
     </div>
