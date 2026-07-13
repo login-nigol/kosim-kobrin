@@ -11,6 +11,7 @@ import { useShare } from "../../hooks/useShare";
 import { secondaryFeedback } from "../../utils/buttonFeedback";
 import MuteButton from "../MuteButton/MuteButton";
 import ShareIcon from "../../assets/icons/ShareIcon";
+import GearsIcon from "../GearsIcon/GearsIcon";
 import styles from "./Header.module.css";
 
 /* ===== ССЫЛКИ НАВИГАЦИИ ===== */
@@ -97,6 +98,9 @@ function Header() {
                         // добираться до оверлея и закрывать меню
                         onClick={(e) => e.stopPropagation()}
                     >
+
+                        <GearsIcon />
+
                         {/* Мьют — теперь первым пунктом меню */}
                         <div className={styles.menuMuteRow}>
                             <span className={styles.menuMuteLabel}>Гук</span>

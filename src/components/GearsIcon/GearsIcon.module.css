@@ -1,0 +1,37 @@
+/* ===== ОБЁРТКА ДВУХ ШЕСТЕРЁНОК ===== */
+.wrapper {
+  position: relative;
+  width: 3.5em;
+  height: 2.8em;
+  margin: 0 auto 0.5em;
+}
+
+/* ===== БОЛЬШАЯ ШЕСТЕРНЯ — крутится по часовой ===== */
+.gearBig {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 2.2em;
+  height: 2.2em;
+  animation: spinClockwise 6s linear infinite;
+}
+
+/* ===== МАЛЕНЬКАЯ ШЕСТЕРНЯ — крутится против часовой, зацеплена за большую ===== */
+.gearSmall {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 1.5em;
+  height: 1.5em;
+  animation: spinCounterClockwise 4s linear infinite;
+}
+
+@keyframes spinClockwise {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+@keyframes spinCounterClockwise {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(-360deg); }
+}
