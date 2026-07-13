@@ -3,7 +3,7 @@
   position: sticky;
   top: 0;
   z-index: 100;
-  background: var(--color-white);
+  background: rgba(47, 125, 50, 0.7);
   box-shadow: 0 0.2em 0.6em rgba(0, 0, 0, 0.06);
 }
 
@@ -19,9 +19,10 @@
 /* ===== ЛОГОТИП ===== */
 .logo {
   font-family: var(--font-display);
-  font-size: 1.4em;
+  font-size: 1.5em;
   font-weight: 600;
-  color: var(--color-primary);
+  /* color: var(--color-primary); */
+  color: var(--color-white);
 }
 
 /* ===== ДЕСКТОПНАЯ НАВИГАЦИЯ ===== */
@@ -32,12 +33,13 @@
 
 .navLink {
   font-family: var(--font-body);
-  color: var(--color-text);
+  color: var(--color-white);
   transition: color var(--transition-base);
 }
 
 .navLink:hover {
-  color: var(--color-primary);
+  /* color: var(--color-primary); */
+  color: var(--color-bg-soft);
 }
 
 /* ===== БЛОК ДЕЙСТВИЙ СПРАВА ===== */
@@ -52,28 +54,30 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 2.4em;
-  height: 2.4em;
+  width: 3.4em;
+  height: 3.4em;
+
+  margin-right: 1em;
   border-radius: 50%;
   border: none;
   cursor: pointer;
-  background: rgba(47, 125, 50, 0.12); /* тот же зелёный тон, что и в --shadow-inset-green */
-  color: var(--color-primary);
+  background: rgba(255, 255, 255, 0.15);
+  color: var(--color-white);
   transition: background var(--transition-base), transform var(--transition-base);
 }
 
 .shareButton:hover {
-  background: rgba(47, 125, 50, 0.22);
+  background: rgba(255, 255, 255, 0.25);
   transform: scale(1.05);
 }
 
 /* ===== БУРГЕР-КНОПКА ===== */
 .burger {
-  font-size: 1.5em;
+  font-size: 2em;
   background: none;
   border: none;
   cursor: pointer;
-  color: var(--color-primary);
+  color: var(--color-white);
 }
 
 /* ===== ОВЕРЛЕЙ ДЛЯ ЗАКРЫТИЯ ПО КЛИКУ ВНЕ ===== */
@@ -90,7 +94,8 @@
   left: 0;
   width: 100%;
   z-index: 150;
-  background: var(--color-white);
+  /* background: var(--color-white); */
+  background: var(--color-bg-soft);
   box-shadow: 0 0.6em 1.2em rgba(0, 0, 0, 0.12);
   border-radius: 0 0 var(--radius-base) var(--radius-base);
   display: flex;
@@ -104,7 +109,7 @@
   align-items: center;
   justify-content: space-between;
   padding: 1em 0;
-  border-bottom: 0.06em solid var(--color-bg-soft);
+  border-bottom: 0.1em solid rgba(47, 125, 50, 0.15); /* ← было var(--color-bg-soft), сливалось с фоном */
   margin-bottom: 0.5em;
 }
 
@@ -117,11 +122,11 @@
 /* ===== ССЫЛКИ НАВИГАЦИИ В МЕНЮ ===== */
 .mobileNavLink {
   font-family: var(--font-body);
-  font-size: 1.1em;
+  font-size: 1.3em;
   font-weight: 600;
   color: var(--color-text);
   padding: 0.9em 0;
-  border-bottom: 0.06em solid var(--color-bg-soft);
+  border-bottom: 0.1em solid rgba(47, 125, 50, 0.15); /* ← та же замена */
 }
 
 .mobileNavLink:last-child {

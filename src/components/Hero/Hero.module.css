@@ -28,7 +28,7 @@
 
 .floatingIcon {
   position: absolute;
-  font-size: 2em;
+  font-size: 4em;
   opacity: 0.5;
 }
 
@@ -51,7 +51,8 @@
 
 .subtitle {
   font-family: var(--font-body);
-  font-size: 1.1em;
+  font-size: 1.3em;
+  font-weight: 700;
   color: var(--color-text-soft);
   margin-bottom: 1.5em;
 }
@@ -59,13 +60,14 @@
 /* ===== КНОПКА ЗАКАЗА ===== */
 .ctaButton {
   font-family: var(--font-display);
-  font-size: 1.1em;
+  font-size: 1.3em;
   font-weight: 600;
   color: var(--color-white);
   background: var(--color-primary);
   border: none;
   border-radius: var(--radius-base);
-  padding: 0.8em 2em;
+  padding: 0.5em 1em;
+  margin-top: 2em;
   cursor: pointer;
   box-shadow: 0 0.4em 1em rgba(47, 125, 50, 0.3);
   transition: transform var(--transition-base), background var(--transition-base);
