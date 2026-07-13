@@ -22,6 +22,9 @@
   --transition-slow: 0.7s ease;
   --transition-base: 0.3s ease;
 
+  /* ===== ВЫСОТА ШАПКИ (для скролл-отступа под sticky-header) ===== */
+  --header-height: 4.5em;
+
   /* ===== ВНУТРЕННЯЯ ТЕНЬ ДЛЯ БЕЛЫХ БЛОКОВ ===== */
   --shadow-inset-green: inset 0 0 0 0.08em rgba(47, 125, 50, 0.18), inset 0 0 1.2em rgba(47, 125, 50, 0.1);
 }
