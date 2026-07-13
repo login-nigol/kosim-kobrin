@@ -15,8 +15,8 @@
   /* ===== РАЗМЕРЫ И ОТСТУПЫ ===== */
   --max-width: 90em;
   --radius-base: 2em;
-  --section-padding-y: 3em;
-  --section-padding-x: 1.5em;
+  --section-padding-y: 2em;
+  --section-padding-x: 1em;
 
   /* ===== АНИМАЦИИ ===== */
   --transition-slow: 0.7s ease;
