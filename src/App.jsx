@@ -23,6 +23,7 @@ function App() {
         <About />
         <GrassDivider />
         <FAQSection />
+        <GrassDivider />
         <Services />
         <GrassDivider />
         <Portfolio />
