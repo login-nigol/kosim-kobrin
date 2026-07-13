@@ -78,21 +78,63 @@ function MowerEasterEgg() {
 
         scheduleNextPass(); // первый проезд — тоже после случайной паузы, не сразу при загрузке
 
-        /* ===== ОТРИСОВКА ТЕЛА КОСИЛКИ ===== */
+        /* ===== ОТРИСОВКА РОБОТА-КОСИЛКИ (вид сверху) ===== */
         function drawMower() {
             ctx.save();
             ctx.translate(mower.x, mower.y);
             ctx.rotate(mower.angle);
 
-            // корпус
-            ctx.fillStyle = "#2f7d32";
-            ctx.fillRect(-MOWER_SIZE / 2, -MOWER_SIZE / 4, MOWER_SIZE, MOWER_SIZE / 2);
+            const bodyLength = MOWER_SIZE;
+            const bodyWidth = MOWER_SIZE * 0.75;
 
-            // колёса
+            /* --- колёса (рисуем первыми, чтобы корпус лёг поверх) --- */
             ctx.fillStyle = "#1c2b1e";
             ctx.beginPath();
-            ctx.arc(-MOWER_SIZE / 2 + 4, MOWER_SIZE / 4, 5, 0, Math.PI * 2);
-            ctx.arc(MOWER_SIZE / 2 - 4, MOWER_SIZE / 4, 5, 0, Math.PI * 2);
+            ctx.roundRect(-bodyLength / 2 + 2, -bodyWidth / 2 - 3, bodyLength * 0.4, 6, 3);
+            ctx.roundRect(-bodyLength / 2 + 2, bodyWidth / 2 - 3, bodyLength * 0.4, 6, 3);
+            ctx.fill();
+
+            /* --- основной корпус: скруглённый овал --- */
+            ctx.fillStyle = "#2f7d32";
+            ctx.beginPath();
+            ctx.roundRect(-bodyLength / 2, -bodyWidth / 2, bodyLength, bodyWidth, bodyWidth / 2);
+            ctx.fill();
+
+            /* --- верхняя светлая панель (крышка корпуса) --- */
+            ctx.fillStyle = "#6cbf5f";
+            ctx.beginPath();
+            ctx.roundRect(-bodyLength / 2 + 4, -bodyWidth / 2 + 4, bodyLength - 8, bodyWidth - 8, (bodyWidth - 8) / 2);
+            ctx.fill();
+
+            /* --- вращающийся нож под корпусом (полупрозрачный, намёк на кошение) --- */
+            const bladeAngle = (performance.now() / 60) % (Math.PI * 2);
+            ctx.save();
+            ctx.rotate(bladeAngle);
+            ctx.strokeStyle = "rgba(28, 43, 30, 0.4)";
+            ctx.lineWidth = 2;
+            ctx.beginPath();
+            ctx.moveTo(-bodyWidth / 3, 0);
+            ctx.lineTo(bodyWidth / 3, 0);
+            ctx.stroke();
+            ctx.restore();
+
+            /* --- сенсоры-"глаза" спереди --- */
+            ctx.fillStyle = "#4fa8d8";
+            ctx.beginPath();
+            ctx.arc(bodyLength / 2 - 6, -4, 2.5, 0, Math.PI * 2);
+            ctx.arc(bodyLength / 2 - 6, 4, 2.5, 0, Math.PI * 2);
+            ctx.fill();
+
+            /* --- антенна сзади --- */
+            ctx.strokeStyle = "#1c2b1e";
+            ctx.lineWidth = 1.5;
+            ctx.beginPath();
+            ctx.moveTo(-bodyLength / 2, 0);
+            ctx.lineTo(-bodyLength / 2 - 6, 0);
+            ctx.stroke();
+            ctx.fillStyle = "#1c2b1e";
+            ctx.beginPath();
+            ctx.arc(-bodyLength / 2 - 6, 0, 1.8, 0, Math.PI * 2);
             ctx.fill();
 
             ctx.restore();
