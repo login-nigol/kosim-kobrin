@@ -1,21 +1,22 @@
-/* ===== СЕКЦИЯ "ЧАСТЫЕ ВОПРОСЫ" ===== */
-// Аккордеон — вопрос виден всегда, ответ раскрывается по клику
+/* ================================================================
+   СЕКЦИЯ "ЧАСТЫЕ ВОПРОСЫ"
+   Аккордеон — вопрос виден всегда, ответ раскрывается по клику
+   ================================================================ */
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { FAQ } from "../../config/siteData";
-import { useClickSound } from "../../hooks/useClickSound";
-import { useVibration } from "../../hooks/useVibration";
+import { secondaryFeedback } from "../../utils/buttonFeedback";
 import styles from "./FAQ.module.css";
 
 function FAQSection() {
+    /* ===== ИНДЕКС ОТКРЫТОГО ВОПРОСА ===== */
+    // null — все вопросы закрыты, число — индекс открытого
     const [openIndex, setOpenIndex] = useState(null);
-    const playClick = useClickSound();
-    const vibrate = useVibration();
 
     /* ===== ПЕРЕКЛЮЧЕНИЕ ОТКРЫТОГО ВОПРОСА ===== */
+    // Клик по уже открытому вопросу — закрывает его (переключатель)
     const toggleQuestion = (index) => {
-        playClick();
-        vibrate();
+        secondaryFeedback();
         setOpenIndex(openIndex === index ? null : index);
     };
 
@@ -32,19 +33,22 @@ function FAQSection() {
                     Частыя пытанні
                 </motion.h2>
 
-                {/* ===== СПИСОК ВОПРОСОВ-ОТВЕТОВ ===== */}
+                {/* ===== СПИСОК ВОПРОСОВ-ОТВЕТОВ ИЗ siteData.js ===== */}
                 <div className={styles.list}>
                     {FAQ.map((item, index) => {
                         const isOpen = openIndex === index;
 
                         return (
                             <div key={index} className={styles.item}>
+                                {/* Кнопка-вопрос — кликабельна целиком, не только иконка */}
                                 <button
                                     className={styles.question}
                                     onClick={() => toggleQuestion(index)}
                                     aria-expanded={isOpen}
                                 >
                                     <span>{item.question}</span>
+
+                                    {/* Плюсик поворачивается на 45° и превращается в крестик */}
                                     <motion.span
                                         className={styles.icon}
                                         animate={{ rotate: isOpen ? 45 : 0 }}
@@ -54,7 +58,7 @@ function FAQSection() {
                                     </motion.span>
                                 </button>
 
-                                {/* ===== АНИМИРОВАННОЕ РАСКРЫТИЕ ОТВЕТА ===== */}
+                                {/* ===== ОТВЕТ — плавно раскрывается/схлопывается по высоте ===== */}
                                 <AnimatePresence>
                                     {isOpen && (
                                         <motion.div

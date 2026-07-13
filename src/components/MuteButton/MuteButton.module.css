@@ -1,0 +1,16 @@
+/* ===== КНОПКА МЬЮТА ===== */
+/* Простая иконка-переключатель, без фона и рамки — не должна отвлекать
+   от основных CTA-кнопок, это второстепенная настройка */
+.muteButton {
+  font-size: 1.2em;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0.3em;
+  line-height: 1;
+  transition: transform var(--transition-base);
+}
+
+.muteButton:hover {
+  transform: scale(1.15);
+}

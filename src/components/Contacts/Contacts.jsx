@@ -1,22 +1,22 @@
-/* ===== СЕКЦИЯ "КОНТАКТЫ" ===== */
-// Telegram, mailto-кнопка (открывает почтовый клиент), кнопка "Поделиться"
+/* ================================================================
+   СЕКЦИЯ "КОНТАКТЫ"
+   Telegram, mailto-кнопка (открывает почтовый клиент пользователя),
+   кнопка "Поделиться" сайтом
+   ================================================================ */
 import { motion } from "framer-motion";
 import { CONTACTS } from "../../config/siteData";
 import { useShare } from "../../hooks/useShare";
-import { useClickSound } from "../../hooks/useClickSound";
-import { useVibration } from "../../hooks/useVibration";
+import { primaryFeedback, secondaryFeedback } from "../../utils/buttonFeedback";
 import styles from "./Contacts.module.css";
 
 function Contacts() {
     const { share, copied } = useShare();
-    const playClick = useClickSound();
-    const vibrate = useVibration();
 
-    /* ===== ОБРАБОТЧИК ДЛЯ ЛЮБОЙ КНОПКИ (звук + вибро) ===== */
-    const handleAction = (action) => {
-        playClick();
-        vibrate();
-        action();
+    /* ===== КЛИК ПО КНОПКЕ "ПОДЕЛИТЬСЯ" ===== */
+    // Второстепенное действие — используем secondaryFeedback
+    const handleShareClick = () => {
+        secondaryFeedback();
+        share();
     };
 
     return (
@@ -38,39 +38,34 @@ function Contacts() {
 
                 {/* ===== КНОПКИ КОНТАКТОВ ===== */}
                 <div className={styles.buttonsGrid}>
+                    {/* Основной канал связи — тяжёлый фидбек, это ключевое действие */}
 
                     <a href={CONTACTS.telegram}
                         target="_blank"
                         rel="noreferrer"
                         className={styles.telegramButton}
-                        onClick={() => {
-                            playClick();
-                            vibrate();
-                        }}
+                        onClick={primaryFeedback}
                     >
                         ✈️ Telegram
                     </a>
 
+                    {/* mailto: открывает дефолтный почтовый клиент пользователя
+              с уже подставленным получателем — тоже основное действие */}
 
                     <a href={`mailto:${CONTACTS.email}`}
                         className={styles.emailButton}
-                        onClick={() => {
-                            playClick();
-                            vibrate();
-                        }}
+                        onClick={primaryFeedback}
                     >
                         ✉️ {CONTACTS.email}
                     </a>
 
-                    <button
-                        className={styles.shareButton}
-                        onClick={() => handleAction(share)}
-                    >
+                    {/* "Поделиться" — второстепенное действие, лёгкий фидбек */}
+                    <button className={styles.shareButton} onClick={handleShareClick}>
                         {copied ? "Спасылка скапіравана!" : "🔗 Падзяліцца"}
                     </button>
                 </div>
-            </div >
-        </section >
+            </div>
+        </section>
     );
 }
 

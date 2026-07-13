@@ -1,13 +1,16 @@
-/* ===== HERO-СЕКЦИЯ ===== */
-// Главный экран: заголовок на белорусском, CTA-кнопка,
-// летающие SVG-иконки (трава, косилка, лист) на фоне
+/* ================================================================
+   HERO-СЕКЦИЯ
+   Главный экран сайта: заголовок на белорусском, кнопка заказа,
+   летающие SVG-иконки (трава/лист/зерно) плавающие на фоне
+   ================================================================ */
 import { motion } from "framer-motion";
 import { CONTACTS } from "../../config/siteData";
-import { useClickSound } from "../../hooks/useClickSound";
-import { useVibration } from "../../hooks/useVibration";
+import { primaryFeedback } from "../../utils/buttonFeedback";
 import styles from "./Hero.module.css";
 
-/* ===== НАБОР ИКОНОК ДЛЯ ФОНА (позиция/скорость/иконка) ===== */
+/* ===== НАБОР ФОНОВЫХ ИКОНОК ===== */
+// top/left — позиция в процентах, duration — скорость покачивания (разная,
+// чтобы иконки двигались не синхронно и не выглядели "механически")
 const FLOATING_ICONS = [
   { icon: "🌿", top: "10%", left: "8%", duration: 6 },
   { icon: "🍃", top: "20%", left: "85%", duration: 8 },
@@ -18,18 +21,16 @@ const FLOATING_ICONS = [
 ];
 
 function Hero() {
-  const playClick = useClickSound();
-  const vibrate = useVibration();
-
+  /* ===== КЛИК ПО КНОПКЕ ЗАКАЗА ===== */
+  // Основное действие сайта — используем "тяжёлый" primaryFeedback
   const handleOrderClick = () => {
-    playClick();
-    vibrate();
+    primaryFeedback();
     window.open(CONTACTS.telegram, "_blank");
   };
 
   return (
     <section id="top" className={styles.hero}>
-      {/* ===== ЛЕТАЮЩИЕ ИКОНКИ НА ФОНЕ ===== */}
+      {/* ===== СЛОЙ С ЛЕТАЮЩИМИ ИКОНКАМИ (декоративный, не мешает кликам) ===== */}
       <div className={styles.iconsLayer} aria-hidden="true">
         {FLOATING_ICONS.map((item, index) => (
           <motion.span
@@ -37,8 +38,8 @@ function Hero() {
             className={styles.floatingIcon}
             style={{ top: item.top, left: item.left }}
             animate={{
-              y: [0, -20, 0],
-              rotate: [0, 10, -10, 0],
+              y: [0, -20, 0],       // лёгкое покачивание вверх-вниз
+              rotate: [0, 10, -10, 0], // и покачивание по кругу
             }}
             transition={{
               duration: item.duration,
@@ -51,20 +52,24 @@ function Hero() {
         ))}
       </div>
 
-      {/* ===== ОСНОВНОЙ КОНТЕНТ HERO ===== */}
+      {/* ===== ОСНОВНОЙ КОНТЕНТ: заголовок, подзаголовок, кнопка ===== */}
       <motion.div
         className={styles.content}
         initial={{ opacity: 0, scale: 0.9 }}
         animate={{ opacity: 1, scale: 1 }}
         transition={{ duration: 0.8, ease: "easeOut", delay: 0.2 }}
       >
+        {/* Главный заголовок — на белорусском, как договаривались
+            для самых важных элементов страницы */}
         <h1 className={styles.title}>
           Скосім траву хутка і якасна!
         </h1>
+
         <p className={styles.subtitle}>
           Покос травы, уход за газоном и территорией в Кобрине.
           Аккуратно, недорого, по договорённости на следующий день.
         </p>
+
         <button className={styles.ctaButton} onClick={handleOrderClick}>
           Замовіць у Telegram
         </button>

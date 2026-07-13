@@ -1,12 +1,16 @@
-/* ===== ШАПКА САЙТА ===== */
-// Лого, навигация по секциям, кнопка "Поделиться", мобильное бургер-меню
+/* ================================================================
+   ШАПКА САЙТА
+   Лого, навигация по секциям, кнопка мьюта, кнопка "Поделиться",
+   мобильное бургер-меню на весь экран
+   ================================================================ */
 import { useState } from "react";
 import { motion } from "framer-motion";
 import { useShare } from "../../hooks/useShare";
-import { useClickSound } from "../../hooks/useClickSound";
-import { useVibration } from "../../hooks/useVibration";
+import { secondaryFeedback } from "../../utils/buttonFeedback";
+import MuteButton from "../MuteButton/MuteButton";
 import styles from "./Header.module.css";
 
+/* ===== ССЫЛКИ НАВИГАЦИИ (id секции + подпись на белорусском) ===== */
 const NAV_LINKS = [
     { id: "about", label: "Пра нас" },
     { id: "services", label: "Паслугі" },
@@ -18,13 +22,12 @@ const NAV_LINKS = [
 function Header() {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const { share } = useShare();
-    const playClick = useClickSound();
-    const vibrate = useVibration();
 
-    /* ===== ОБРАБОТЧИК КЛИКА ПО КНОПКЕ (звук + вибро) ===== */
+    /* ===== ОБЁРТКА ДЕЙСТВИЯ: сначала звук+вибро, потом сама логика ===== */
+    // Используется для всех второстепенных кликов в шапке
+    // (открыть/закрыть меню, поделиться)
     const handleAction = (action) => {
-        playClick();
-        vibrate();
+        secondaryFeedback();
         action();
     };
 
@@ -36,29 +39,28 @@ function Header() {
             transition={{ duration: 0.7, ease: "easeOut" }}
         >
             <div className={styles.inner}>
-                {/* ===== ЛОГОТИП ===== */}
-
-                <a href="#top"
-                    className={styles.logo}
-                >
+                {/* ===== ЛОГОТИП (ведёт наверх страницы) ===== */}
+                <a href="#top" className={styles.logo}>
                     🌱 КосимКобрин
                 </a>
 
-                {/* ===== НАВИГАЦИЯ (десктоп) ===== */}
+                {/* ===== НАВИГАЦИЯ — видна только на планшете/десктопе ===== */}
                 <nav className={styles.navDesktop}>
                     {NAV_LINKS.map((link) => (
-
-                        <a key={link.id}
-                            href={`#${link.id}`}
-                            className={styles.navLink}
-                        >
+                        <a key={link.id} href={`#${link.id}`} className={styles.navLink}>
                             {link.label}
                         </a>
                     ))}
                 </nav>
 
-                {/* ===== КНОПКИ СПРАВА ===== */}
+                {/* ===== БЛОК КНОПОК СПРАВА ===== */}
                 <div className={styles.actions}>
+                    {/* Переключатель звука — стоит первым, чтобы легко нашли */}
+                    <MuteButton />
+
+                    {/* Кнопка "Поделиться" — видна только на планшете/десктопе,
+              на мобилке она дублируется внутри бургер-меню отдельно не нужна,
+              потому что там уже видно всё меню */}
                     <button
                         className={styles.shareButton}
                         onClick={() => handleAction(share)}
@@ -67,7 +69,7 @@ function Header() {
                         🔗 Падзяліцца
                     </button>
 
-                    {/* ===== БУРГЕР-КНОПКА (мобилка) ===== */}
+                    {/* Бургер-кнопка — видна только на мобилке */}
                     <button
                         className={styles.burger}
                         onClick={() => handleAction(() => setIsMenuOpen(true))}
@@ -86,6 +88,7 @@ function Header() {
                     animate={{ opacity: 1 }}
                     exit={{ opacity: 0 }}
                 >
+                    {/* Кнопка закрытия — в углу, крупная, легко попасть пальцем */}
                     <button
                         className={styles.closeButton}
                         onClick={() => handleAction(() => setIsMenuOpen(false))}
@@ -94,6 +97,8 @@ function Header() {
                         ✕
                     </button>
 
+                    {/* При клике на ссылку меню сразу закрывается —
+              не нужно тыкать в крестик после перехода */}
                     {NAV_LINKS.map((link) => (
 
                         <a key={link.id}
