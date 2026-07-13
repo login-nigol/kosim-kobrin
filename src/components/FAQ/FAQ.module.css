@@ -1,0 +1,69 @@
+/* ===== КОНТЕЙНЕР СЕКЦИИ ===== */
+.faq {
+  padding: var(--section-padding-y) var(--section-padding-x);
+  background: var(--color-white);
+  border-radius: var(--radius-base);
+  box-shadow: var(--shadow-inset-green);
+}
+
+.inner {
+  max-width: 50em;
+  margin: 0 auto;
+}
+
+.title {
+  font-family: var(--font-display);
+  font-size: 2em;
+  color: var(--color-primary);
+  text-align: center;
+  margin-bottom: 1.2em;
+}
+
+/* ===== СПИСОК ВОПРОСОВ ===== */
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8em;
+}
+
+.item {
+  background: var(--color-bg-soft);
+  border-radius: var(--radius-base);
+  overflow: hidden;
+}
+
+/* ===== КНОПКА ВОПРОСА ===== */
+.question {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: none;
+  border: none;
+  padding: 1.2em 1.5em;
+  font-family: var(--font-body);
+  font-weight: 700;
+  font-size: 1em;
+  color: var(--color-text);
+  cursor: pointer;
+  text-align: left;
+}
+
+.icon {
+  font-size: 1.3em;
+  color: var(--color-primary);
+  flex-shrink: 0;
+  margin-left: 1em;
+}
+
+/* ===== ОБЁРТКА ОТВЕТА (для плавного height-анимирования) ===== */
+.answerWrapper {
+  overflow: hidden;
+}
+
+.answer {
+  font-family: var(--font-body);
+  color: var(--color-text-soft);
+  padding: 0 1.5em 1.2em;
+  line-height: 1.6;
+}

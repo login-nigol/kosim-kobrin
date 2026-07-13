@@ -1,4 +1,5 @@
 /* ===== ГЛАВНЫЙ КОМПОНЕНТ ПРИЛОЖЕНИЯ ===== */
+import styles from "./App.module.css";
 import Header from "./components/Header/Header";
 import Hero from "./components/Hero/Hero";
 import About from "./components/About/About";
@@ -8,7 +9,7 @@ import Pricing from "./components/Pricing/Pricing";
 import Contacts from "./components/Contacts/Contacts";
 import Footer from "./components/Footer/Footer";
 import GrassDivider from "./components/GrassDivider/GrassDivider";
-import styles from "./App.module.css";
+import FAQSection from "./components/FAQ/FAQ";
 
 function App() {
   return (
@@ -21,6 +22,7 @@ function App() {
         <GrassDivider />
         <About />
         <GrassDivider />
+        <FAQSection />
         <Services />
         <GrassDivider />
         <Portfolio />
