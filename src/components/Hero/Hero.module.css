@@ -11,7 +11,12 @@
     var(--color-bg-soft) 0%,
     var(--color-white) 100%
   );
+  margin-top: 1em;
   padding: var(--section-padding-y) var(--section-padding-x);
+  border-radius: var(--radius-base) var(--radius-base);
+  box-shadow: 
+    inset 0 1.5em 2em -0.6em rgba(47, 125, 50, 0.35), /* тень сверху */
+    inset 0 -1.5em 2em -0.6em rgba(47, 125, 50, 0.35); /* тень снизу */
 }
 
 /* ===== СЛОЙ С ЛЕТАЮЩИМИ ИКОНКАМИ ===== */

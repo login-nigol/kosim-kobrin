@@ -14,6 +14,7 @@ body {
   font-family: 'Segoe UI', system-ui, sans-serif;
   line-height: 1.5;
   min-height: 100vh;
+  /* background: var(--color-bg-soft); */
 }
 
 /* ===== УБИРАЕМ СТАНДАРТНЫЕ СТИЛИ У СПИСКОВ И ССЫЛОК ===== */

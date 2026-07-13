@@ -2,6 +2,12 @@
 .about {
   padding: var(--section-padding-y) var(--section-padding-x);
   background: var(--color-white);
+  border-radius: var(--radius-base); /* ← скругление со всех сторон */
+  box-shadow: var(--shadow-inset-green); /* ← зелёная тень по всей рамке */
+  box-shadow: 
+    var(--shadow-inset-green), /* тень по всей рамке, как было */
+    inset 0 1.5em 2em -0.6em rgba(47, 125, 50, 0.35), /* тень сверху, как в Hero/Portfolio */
+    inset 0 -1.5em 2em -0.6em rgba(47, 125, 50, 0.35);
 }
 
 .inner {

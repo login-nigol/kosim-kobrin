@@ -8,22 +8,28 @@ import Pricing from "./components/Pricing/Pricing";
 import Contacts from "./components/Contacts/Contacts";
 import Footer from "./components/Footer/Footer";
 import GrassDivider from "./components/GrassDivider/GrassDivider";
+import styles from "./App.module.css";
 
 function App() {
   return (
-    <div className="app">
+    <div className={styles.app}>
       <Header />
-      <Hero />
-      <GrassDivider />
-      <About />
-      <GrassDivider />
-      <Services />
-      <GrassDivider />
-      <Portfolio />
-      <GrassDivider />
-      <Pricing />
-      <GrassDivider />
-      <Contacts />
+
+      {/* ===== КОНТЕНТНЫЕ СЕКЦИИ С ОТСТУПОМ ПО БОКАМ ===== */}
+      <div className={styles.content}>
+        <Hero />
+        <GrassDivider />
+        <About />
+        <GrassDivider />
+        <Services />
+        <GrassDivider />
+        <Portfolio />
+        <GrassDivider />
+        <Pricing />
+        <GrassDivider />
+        <Contacts />
+      </div>
+
       <Footer />
     </div>
   );

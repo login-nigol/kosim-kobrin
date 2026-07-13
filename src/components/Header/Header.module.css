@@ -5,6 +5,7 @@
   z-index: 100;
   background: var(--color-white);
   box-shadow: 0 0.2em 0.6em rgba(0, 0, 0, 0.06);
+  /* border-radius: 0 0 var(--radius-base) var(--radius-base); */
 }
 
 .inner {
