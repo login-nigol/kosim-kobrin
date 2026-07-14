@@ -1,8 +1,16 @@
+/* ================================================================
+   СЕКЦИЯ "КОНТАКТЫ"
+   Telegram (синяя кнопка), телефон (кнопка другого цвета),
+   "Поделиться" (золотая) — все три с постоянной мерцающей анимацией,
+   иконки и текст внутри белые
+   ================================================================ */
 import { motion } from "framer-motion";
 import { CONTACTS } from "../../config/siteData";
 import { useShare } from "../../hooks/useShare";
 import { primaryFeedback, secondaryFeedback } from "../../utils/buttonFeedback";
-import ShareIcon from "../../assets/icons/ShareIcon"; {/* ← добавили импорт */ }
+import ShareIcon from "../../assets/icons/ShareIcon";
+import TelegramIcon from "../../assets/icons/TelegramIcon";
+import PhoneIcon from "../../assets/icons/PhoneIcon";
 import styles from "./Contacts.module.css";
 
 function Contacts() {
@@ -38,18 +46,19 @@ function Contacts() {
                         className={styles.telegramButton}
                         onClick={primaryFeedback}
                     >
-                        ✈️ Telegram
+                        <TelegramIcon size={18} />
+                        Telegram
                     </a>
 
 
-                    <a href={`mailto:${CONTACTS.email}`}
-                        className={styles.emailButton}
+                    <a href={`tel:${CONTACTS.phone}`}
+                        className={styles.phoneButton}
                         onClick={primaryFeedback}
                     >
-                        ✉️ {CONTACTS.email}
+                        <PhoneIcon size={18} />
+                        {CONTACTS.phone}
                     </a>
 
-                    {/* ===== КНОПКА "ПОДЕЛИТЬСЯ" — теперь с SVG-иконкой вместо эмодзи ===== */}
                     <button className={styles.shareButton} onClick={handleShareClick}>
                         <ShareIcon size={18} />
                         {copied ? "Спасылка скапіравана!" : "Падзяліцца"}
