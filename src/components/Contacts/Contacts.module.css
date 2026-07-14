@@ -23,6 +23,7 @@
 }
 
 .subtitle {
+  font-size: 1.2em;
   font-family: var(--font-body);
   color: var(--color-bg-soft);
   margin-bottom: 2em;

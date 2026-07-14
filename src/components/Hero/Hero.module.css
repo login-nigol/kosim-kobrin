@@ -57,6 +57,8 @@
 
 /* ===== КНОПКА ЗАКАЗА ===== */
 .ctaButton {
+  position: relative; /* нужно для позиционирования мерцающей полосы */
+  overflow: hidden;    /* обрезаем мерцание по границам кнопки */
   font-family: var(--font-display);
   font-size: 1.3em;
   font-weight: 600;
@@ -65,7 +67,6 @@
   border: none;
   border-radius: var(--radius-base);
   padding: 0.5em 1em;
-  margin-top: 2em;
   cursor: pointer;
   box-shadow: 0 0.4em 1em rgba(47, 125, 50, 0.3);
   transition: transform var(--transition-base), background var(--transition-base);
@@ -74,6 +75,29 @@
 .ctaButton:hover {
   background: var(--color-primary-light);
   transform: translateY(-0.15em) scale(1.03);
+}
+
+/* ===== МЕРЦАЮЩАЯ ПОЛОСА (та же анимация, что у кнопок в Contacts) ===== */
+.ctaButton::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -150%;
+  width: 50%;
+  height: 100%;
+  background: linear-gradient(
+    120deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.4) 50%,
+    transparent 100%
+  );
+  animation: shimmerSweep 3s ease-in-out infinite;
+}
+
+@keyframes shimmerSweep {
+  0% { left: -150%; }
+  50% { left: 150%; }
+  100% { left: 150%; }
 }
 
 /* ===== АДАПТАЦИЯ ПОД ПЛАНШЕТ И ДЕСКТОП ===== */

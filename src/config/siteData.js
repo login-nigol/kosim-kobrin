@@ -1,6 +1,6 @@
 /* ===== КОНТАКТЫ ===== */
 export const CONTACTS = {
-  telegram: "https://t.me/+375336493052", // ссылка по номеру телефона — прямого юзернейма Костя не давал
+  telegram: "https://t.me/rrufikss",
   phone: "+375336493052",
 };
 

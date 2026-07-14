@@ -54,20 +54,18 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 3.4em;
-  height: 3.4em;
-
-  margin-right: 1em;
+  width: 3.5em;
+  height: 3.5em;
   border-radius: 50%;
   border: none;
   cursor: pointer;
-  background: rgba(255, 255, 255, 0.15);
+  background: var(--color-accent-blue); /* ← было rgba(255,255,255,0.15), теперь синий как Telegram */
   color: var(--color-white);
   transition: background var(--transition-base), transform var(--transition-base);
 }
 
 .shareButton:hover {
-  background: rgba(255, 255, 255, 0.25);
+  background: #3d8fc4; /* чуть темнее для эффекта hover, т.к. rgba-приём для белого тут больше не подходит */
   transform: scale(1.05);
 }
 
