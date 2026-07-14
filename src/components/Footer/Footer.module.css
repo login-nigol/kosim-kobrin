@@ -21,6 +21,7 @@
 }
 
 .link {
+  font-size: 1.3em;
   font-family: var(--font-body);
   color: var(--color-primary-light);
   font-weight: 700;
