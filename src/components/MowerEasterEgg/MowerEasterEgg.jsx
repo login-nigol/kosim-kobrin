@@ -1,10 +1,10 @@
 /* ================================================================
    ПАСХАЛКА: РОБОТ-КОСИЛКА, ЕЗДЯЩАЯ ПО ЭКРАНУ ПОД СЛУЧАЙНЫМ УГЛОМ
    Canvas-оверлей поверх всей страницы (клики сквозь него проходят).
-   Косилка выезжает из случайной точки за краем экрана под случайным
-   углом (0-360°), едет по прямой, за ней остаётся полоса цвета земли
-   с текстурой вдоль всего пройденного пути. Когда косилка уезжает за
-   противоположный край экрана — полоса плавно исчезает
+   Косилка выезжает из-за пределов экрана под случайным диагональным
+   углом (20-160° и зеркально), едет по прямой, за ней остаётся полоса
+   цвета земли с текстурой вдоль всего пройденного пути. Когда косилка
+   уезжает за противоположный край экрана — полоса плавно исчезает
    ================================================================ */
 import { useEffect, useRef } from "react";
 import styles from "./MowerEasterEgg.module.css";
@@ -12,6 +12,7 @@ import styles from "./MowerEasterEgg.module.css";
 const MOWER_SIZE = 36;
 const MOWER_SPEED = 4;
 const SWATH_WIDTH = 60;
+const OFFSCREEN_MARGIN_PX = 32; // 2em при базовых 16px — насколько косилка стартует за краем экрана
 const SWATH_FADE_DURATION_MS = 900;
 const PASS_PAUSE_RANGE_MS = [5000, 12000];
 const SWATH_COLOR = "201, 168, 119"; // светло-коричневый, "земля"
@@ -24,7 +25,6 @@ function MowerEasterEgg() {
         const ctx = canvas.getContext("2d");
 
         /* ===== POLYFILL: roundRect есть не во всех мобильных браузерах ===== */
-        // Без этой проверки на старом iOS Safari анимация тихо падает при первой отрисовке
         if (!ctx.roundRect) {
             ctx.roundRect = function (x, y, width, height, radius) {
                 this.beginPath();
@@ -37,7 +37,6 @@ function MowerEasterEgg() {
             };
         }
 
-        // Уважаем настройку "уменьшить анимацию" в системе пользователя
         const prefersReducedMotion = window.matchMedia(
             "(prefers-reduced-motion: reduce)"
         ).matches;
@@ -51,33 +50,49 @@ function MowerEasterEgg() {
         window.addEventListener("resize", resizeCanvas);
 
         let animationFrameId;
-        let mower = null; // {x, y, dx, dy, angle}
-        let swath = null; // {startX, startY, angle, length, fadeStartedAt}
+        let mower = null;
+        let swath = null;
         let passTimeoutId;
 
-        /* ===== ЗАПУСК НОВОГО ПРОЕЗДА ПОД СЛУЧАЙНЫМ УГЛОМ ===== */
+        /* ===== ЗАПУСК НОВОГО ПРОЕЗДА ПОД СЛУЧАЙНЫМ ДИАГОНАЛЬНЫМ УГЛОМ ===== */
         function startNewPass() {
-            const angle = Math.random() * Math.PI * 2;
+            // ===== УГОЛ ДВИЖЕНИЯ: ТОЛЬКО ДИАГОНАЛИ =====
+            // Экран условно делим на 4 квадранта по 90° (0-90, 90-180, 180-270, 270-360).
+            // В каждом квадранте исключаем по 20° у обеих границ (рядом с горизонталью
+            // и рядом с вертикалью) — остаётся диагональная полоса 20°-70° внутри
+            // каждого квадранта. Так угол никогда не окажется близко ни к 0°/180°
+            // (горизонталь), ни к 90°/270° (вертикаль)
+            const quadrant = Math.floor(Math.random() * 4);       // 0, 1, 2 или 3
+            const angleWithinQuadrant = 20 + Math.random() * 50;  // от 20° до 70° внутри квадранта
+            const angleDeg = quadrant * 90 + angleWithinQuadrant;
+            const angle = (angleDeg * Math.PI) / 180;
 
-            // Направление движения (единичный вектор)
             const directionX = Math.cos(angle);
             const directionY = Math.sin(angle);
 
-            // Перпендикуляр к направлению — вдоль него смещаем линию старта,
-            // чтобы разные проезды проходили через разные участки экрана
             const perpendicularX = -directionY;
             const perpendicularY = directionX;
 
-            const diagonal = Math.sqrt(canvas.width ** 2 + canvas.height ** 2);
             const centerX = canvas.width / 2;
             const centerY = canvas.height / 2;
+            const halfWidth = canvas.width / 2;
+            const halfHeight = canvas.height / 2;
 
-            // Стартуем строго за пределами экрана вдоль направления движения —
-            // радиус с запасом гарантирует что точка старта всегда за кадром
-            const startRadius = diagonal / 2 + MOWER_SIZE * 2;
-            // Случайное смещение вдоль перпендикуляра — разброс траекторий по экрану,
-            // ограничен половиной диагонали, чтобы линия всё ещё пересекала видимую область
-            const perpendicularOffset = (Math.random() - 0.5) * diagonal;
+            // ===== ЧЕСТНЫЙ РАСЧЁТ ГРАНИЦЫ ЭКРАНА =====
+            // Считаем, на каком расстоянии от центра луч (в направлении -движения)
+            // пересечёт левую/правую ИЛИ верхнюю/нижнюю границу экрана —
+            // берём МЕНЬШЕЕ значение, это и есть реальный край по ходу движения
+            const distanceToVerticalEdge = directionX !== 0 ? halfWidth / Math.abs(directionX) : Infinity;
+            const distanceToHorizontalEdge = directionY !== 0 ? halfHeight / Math.abs(directionY) : Infinity;
+            const distanceToScreenEdge = Math.min(distanceToVerticalEdge, distanceToHorizontalEdge);
+
+            // Стартуем чуть дальше найденной границы — ровно на OFFSCREEN_MARGIN_PX,
+            // а не на произвольный большой запас
+            const startRadius = distanceToScreenEdge + OFFSCREEN_MARGIN_PX;
+
+            // Разброс по перпендикуляру — держим траекторию ближе к центру экрана
+            const maxPerpendicularOffset = Math.min(canvas.width, canvas.height) * 0.25;
+            const perpendicularOffset = (Math.random() - 0.5) * 2 * maxPerpendicularOffset;
 
             const startX =
                 centerX - directionX * startRadius + perpendicularX * perpendicularOffset;
@@ -160,8 +175,6 @@ function MowerEasterEgg() {
         }
 
         /* ===== ПСЕВДОСЛУЧАЙНОЕ ЧИСЛО ПО ЦЕЛОМУ ИНДЕКСУ ===== */
-        // Стабильный "случайный на вид" результат — комочки земли не мерцают,
-        // т.к. привязаны к позиции на полосе, а не ко времени
         function pseudoRandom(seed) {
             const x = Math.sin(seed * 12.9898) * 43758.5453;
             return x - Math.floor(x);
